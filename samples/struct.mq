@@ -1,0 +1,80 @@
+/**
+  * A decent question was raised on whether we'd like to have value AND reference types (class / struct)
+  * The way I'm going along this language, it seems only logical to have value types as well
+  * so a struct will have to exist. However, the how we're constructing this is the question.
+  * since it's a value type, we must infer the properties to be public, and it having no functions
+  * since functions are variable, and can have any outcome. Use a class instead.
+  * So to conclude, I think a struct should look something like this, unless I misunderstood structs
+  */
+struct Dict {
+    // I do want to eventually define type parameters, like in C# it would be (TK key, TV value) where T : ...
+    // But that's maybe a v2 or v3 step
+    $(open k, open v) {
+        key = k;
+        value = v;
+    }
+
+    // The properties are automatically public, and require no accessors.
+    // Since the struct holds values, and nothing else
+    open key;
+    open value;
+}
+
+/**
+  * {Values} is the identifier of the struct
+  * 
+  * As for any special characters here:
+  * `-` would mark private
+  * `+` would mark public
+  * `*` would mark protected
+  * `@` would mark functions
+  * `$` would mark the constructor
+  * Marking a function private or public or protected would come after the declaration (see example below)
+  * As for this commenting structure, this is document comment, which should eventually allow to be compiled 
+  * into a readme, or other documentation type for this program.
+  * We'll ignore this for now in our tests, and move this comment to its own file later.
+  * public is implied if no accessor has been noted
+  */
+class Numbers {
+    $(int x, float y, decimal z) {
+      publicInteger = x;
+      privateInteger = x;
+      protectedInteger = x;
+
+      publicFloat = y;
+      privateFloat = y;
+      protectedFloat = y;
+
+      publicDecimal = z;
+      privateDecimal = z;
+      protectedDecimal = z;
+    }
+
+    -int privateInteger;
+    -float privateFloat;
+    -decimal privateDecimal;
+
+    +int publicInteger;
+    +float publicFloat;
+    +decimal publicDecimal;
+
+    *int protectedInteger;
+    *float protectedFloat;
+    *decimal protectedDecimal;
+
+    @addImplicitPublic(int adder) {
+      return publicInteger + adder;
+    }
+
+    +@addExplicitlyPublic(int a, int b) {
+      return a + b;
+    }
+
+    -@addPrivate(int adder) {
+      return privateInteger + adder;
+    }
+
+    *@addProtected(int adder) {
+      return protectedInteger + adder;
+    }
+}

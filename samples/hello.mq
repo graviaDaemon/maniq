@@ -1,0 +1,4 @@
+str hello = "Hello, world!";
+char w = 'W';
+print(hello);
+print(w);

@@ -1,0 +1,21 @@
+1:1     KW_STR          str
+1:5     IDENT           hello
+1:11    EQUAL           =
+1:13    STR_LIT         "Hello, world!"
+1:28    SEMICOLON       ;
+2:1     KW_CHAR         char
+2:6     IDENT           w
+2:8     EQUAL           =
+2:10    CHAR_LIT        'W'
+2:13    SEMICOLON       ;
+3:1     IDENT           print
+3:6     LEFT_PAREN      (
+3:7     IDENT           hello
+3:12    RIGHT_PAREN     )
+3:13    SEMICOLON       ;
+4:1     IDENT           print
+4:6     LEFT_PAREN      (
+4:7     IDENT           w
+4:8     RIGHT_PAREN     )
+4:9     SEMICOLON       ;
+4:10    EOF

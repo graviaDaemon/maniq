@@ -1,0 +1,39 @@
+// Imports
+#use Numbers from <struct>;
+
+Numbers nums = Numbers(1, 2.3, 4.5m);
+if (nums.addImplicitPublic(2) > nums.publicInteger) {
+    print("Larger");
+} else if (nums.addExplicitlyPublic(3, 2) < nums.publicInteger) {
+    print("smaller");
+} else {
+    print("Last");
+}
+
+// instead of `(int i = 0; i < nums.addImplicitPublic(50); i++)` we use [IDENT] to set the variable name (`i`) 
+// def to define the entire set (int i = 0; [RANGE]; i++), and a RANGE (0..[value]) to iterate over
+// The `i++` is then implied.
+for (i in 0..nums.addImplicitPublic(50)) {
+    print(nums.addImplicitPublic(i));
+}
+
+int[] list = [1, 2, 3, 4, 5];
+
+// The intention is to imply the `foreach ([TYPE] [IDENT] in [LIST-VARIABLE])`
+// So the type of the values of the array are already defined, so why should I define
+// the type for `item` again.
+foreach (item in list) {
+    if (item < nums.publicInteger) {
+        print("smaller");
+    }
+}
+
+int first = 0;
+int second = 10;
+while (first < second) {
+    print(first + second);
+}
+
+do {
+    print(first + second);
+} while (first < second)

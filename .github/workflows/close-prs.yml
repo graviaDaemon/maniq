@@ -1,0 +1,22 @@
+name: Close pull requests
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close:
+    if: github.event.pull_request.author_association != 'OWNER'
+    runs-on: ubuntu-latest
+    steps:
+      - run: >
+          gh pr close "$PR" --repo "$REPO" --comment
+          "Thanks! Pull requests aren't accepted until Maniq reaches alpha.
+          Please open an issue with your idea instead; see CONTRIBUTING.md."
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}

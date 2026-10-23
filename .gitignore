@@ -1,0 +1,7 @@
+cmake-build-*/
+build/
+.idea
+plan/
+requests/
+out.tokens
+resources/notes.md

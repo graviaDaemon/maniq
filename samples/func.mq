@@ -1,0 +1,31 @@
+#use Numbers from <struct>;
+#use ExampleExtraImport from <./path/to/file>
+#use ExternalImport from <library-defined-in-toml-file>
+
+/**
+  * Example of overloaded print, but I want print to be built-in so that we don't have to make
+  * an import for every time we want to print a message
+  * we will however make a library way later that allows for file logging and debug levels etc
+  * that might use print, but is not what print itself does
+  */
+@print(str message) << void {
+    sys.out(message);
+}
+
+// I am unsure about this, and did not expect to make design choices already on how to achieve these things.
+// But for the sake of argument, let's say this was the correct way of doing things
+@print(str message, %params) << void {
+    foreach (param in params) {
+        message.substitute('{'..'}', param);
+    }
+    sys.out(message);
+}
+
+@makeList(%params) << open[] {
+    &open[params.size] list = []; // Pre-sets a size for the array, allocating memory for the array.
+    for (i in 0..params) {
+        list[i] = params[i];
+    }
+    // Returns the list and reference, releasing the reference in this scope to whatever takes it (like Rust's transfer ownership)
+    return release list;
+}

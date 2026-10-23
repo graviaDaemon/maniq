@@ -1,0 +1,26 @@
+int x = 1 + 2;
+decimal y = 5 / 3;
+float z = 3.5;
+int mult = 2 * 25;
+int sub = 5 - 3;
+
+// bodmas
+// 10 * ( 4 + 2 ) - 2
+// 10 * 6 - 2
+// 60 - 2
+// 58
+int calcOrder = 10 * (4 + 2) - 2;
+int expectedFromCalcOrder = 58;
+
+// bodmas + modulo (modulo is division, returning remainder, so treat it as division)
+// 10 * (4 + 2) + pow(2, 2) % 5
+// 10 * (4 + 2) + 4 % 5
+// 10 * 6 + 4 % 5
+// 60 + 4 % 5
+// 60 + 4 (4 % 5 is 0 with remainder 4)
+// 64
+int bodmas = 10 * (4 + 2) + pow(2, 2) % 5;
+
+// open means infer type (auto in C++ or var in C#)
+// As for pow and sqrt, these were example functions, but will have their own <math> library later
+open p = pow(x, 2) + sqrt(mult);

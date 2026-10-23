@@ -1,0 +1,32 @@
+// Use everything you can find in the `struct` library/document
+// In this case, Numbers, and Dict
+#use * from <struct>
+// Another example could be
+#use {Numbers, Dict} from <struct>
+// It gains a JS/TS feel, but also C++ feel
+
+// Define without type, this is a constant and cannot be altered.
+// Mainly used to define external IO ports, or bytes that are fixed at runtime
+// Much like arduino code would set a pre-defined constant
+#define msg "Hello, world!";
+
+str someString = "Hello, World!";
+str concat = $"\"{someString}\"\r\nwould return \"Hello, World!\"";
+char someChar = 'W';
+int[] someArray = [1, 2, 3, 4, 5];
+int arraySize = someArray.size;
+bool someBoolean = true;
+
+{
+    // Manually allocate a byte
+    &int allocMemory = int(someArray[2]); // 0-indexed
+
+    // Manually clean the pointer's references, allowing new data to be written to that location in memory
+    delete allocMemory;
+}
+
+{
+    Numbers gcCollectorAutoClean = Numbers(1, 2.3, 4.5);
+    Dict gcCollectMe = Dict("firstKey", 20e4);
+}
+// End of scope, GC cleans reference
