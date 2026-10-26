@@ -41,6 +41,8 @@ Each entry: what it is, cost, **read** (what matters) and **skip** (what doesn't
 
 ## Phase 3 — Parser + AST
 
+- **parser.md** (this folder) — AST node types, the dump, and the parser built rule by rule, until `tests/parse/v0-example.ast` passes. Start here.
+
 - **Crafting Interpreters ch. 5 "Representing Code"** · free · https://craftinginterpreters.com/representing-code.html — Read; in C++ use `std::variant` or a class hierarchy instead of the Java visitor generator.
 - **Crafting Interpreters ch. 6 "Parsing Expressions"** · free · https://craftinginterpreters.com/parsing-expressions.html — Read fully (recursive descent, error recovery).
 - **Crafting Interpreters ch. 8 "Statements and State"** · free · https://craftinginterpreters.com/statements-and-state.html — Read: the parsing parts. Skip: the "Environment"/execution parts. Skip ch. 7 entirely (it evaluates).

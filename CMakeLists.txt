@@ -7,7 +7,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(maniq src/main.cpp
         src/lexer.cpp
-        src/lexer.h)
+        src/lexer.h
+        src/ast.h)
 target_compile_definitions(maniq PRIVATE MANIQ_VERSION="${PROJECT_VERSION}")
 
 enable_testing()
