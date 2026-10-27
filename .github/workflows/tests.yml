@@ -19,3 +19,5 @@ jobs:
           gcc --version
           cmake --version
       - run: cmake --workflow --preset dev
+        env:
+          CXX: g++-14
