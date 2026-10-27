@@ -51,6 +51,7 @@ Each entry: what it is, cost, **read** (what matters) and **skip** (what doesn't
 
 ## Phase 4 — Semantic analysis
 
+- **semantics.md** (this folder) — The rules to decide, scopes, two passes, the type tables and every-path-returns, until `maniq check` accepts `v0-example.mq` and rejects broken programs. Start here.
 - **Crafting Interpreters ch. 11 "Resolving and Binding"** · free · https://craftinginterpreters.com/resolving-and-binding.html — Read: scopes and name resolution. Type checking is not covered (Lox is dynamic).
 - **Writing a C Compiler** — the chapters on semantic analysis / identifier resolution and type checking (see table of contents).
 

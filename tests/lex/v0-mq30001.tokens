@@ -1,0 +1,27 @@
+1:1     AT              @
+1:2     IDENT           main
+1:6     LEFT_PAREN      (
+1:7     RIGHT_PAREN     )
+1:9     LESS_LESS       <<
+1:12    KW_VOID         void
+1:17    LEFT_BRACE      {
+2:5     KW_INT          int
+2:9     IDENT           a
+2:11    EQUAL           =
+2:13    INT_LIT         20
+2:15    SEMICOLON       ;
+3:5     KW_IF           if
+3:8     LEFT_PAREN      (
+3:9     IDENT           a
+3:11    GREATER         >
+3:13    IDENT           b
+3:14    RIGHT_PAREN     )
+3:16    LEFT_BRACE      {
+4:9     IDENT           print
+4:14    LEFT_PAREN      (
+4:15    IDENT           a
+4:16    RIGHT_PAREN     )
+4:17    SEMICOLON       ;
+5:5     RIGHT_BRACE     }
+6:1     RIGHT_BRACE     }
+6:2     EOF

@@ -1,0 +1,6 @@
+@main() << void {
+    int a = 20;
+    if (a > b) {
+        print(a);
+    }
+}

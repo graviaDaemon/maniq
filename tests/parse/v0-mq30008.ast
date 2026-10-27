@@ -1,0 +1,28 @@
+Function max
+    Parameter
+        Type int
+        Name a
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        If
+            Binary >
+                Name a
+                Name b
+            Block
+                Return
+                    Name a
+        Return
+            Name b
+
+Function program
+    Returns void
+    Block
+        Call
+            Name print
+            Call
+                Name max
+                Int 10
+                Int 20

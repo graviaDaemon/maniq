@@ -1,0 +1,2 @@
+v0-mq30005.mq:1:2
+    ==> Checker-Error[MQ30005]: not all paths return a value (function 'max')

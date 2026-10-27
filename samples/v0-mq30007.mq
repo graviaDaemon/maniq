@@ -1,0 +1,10 @@
+@max(int a, int b) << bool {
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
+
+@main() << void {
+    print(max(20, 10));
+}

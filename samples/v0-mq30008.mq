@@ -1,0 +1,10 @@
+@max(int a, int b) << int {
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
+
+@program() << void {
+    print(max(10, 20));
+}

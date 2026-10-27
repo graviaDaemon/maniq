@@ -1,0 +1,2 @@
+v0-mq30008.mq:1:1
+    ==> Checker-Error[MQ30008]: missing entry-point function ('main')

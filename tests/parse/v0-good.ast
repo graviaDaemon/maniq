@@ -1,0 +1,121 @@
+Function max
+    Parameter
+        Type int
+        Name a
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        If
+            Binary >
+                Name a
+                Name b
+            Block
+                Return
+                    Name a
+        Return
+            Name b
+
+Function isEven
+    Parameter
+        Type int
+        Name n
+    Returns bool
+    Block
+        Return
+            Binary ==
+                Binary %
+                    Name n
+                    Int 2
+                Int 0
+
+Function main
+    Returns void
+    Block
+        Call
+            Name countDown
+            Int 3
+        Variable
+            Type int
+            Name biggest
+            Call
+                Name max
+                Int 3
+                Int 7
+        Call
+            Name print
+            Name biggest
+        Variable
+            Type bool
+            Name even
+            Call
+                Name isEven
+                Name biggest
+        If
+            Binary &&
+                Name even
+                Binary >
+                    Name biggest
+                    Int 5
+            Block
+                Call
+                    Name print
+                    Bool true
+            If
+                Binary ||
+                    Unary !
+                        Name even
+                    Binary <=
+                        Name biggest
+                        Int 0
+                Block
+                    Call
+                        Name print
+                        Bool false
+                Block
+                    Call
+                        Name print
+                        Int 0
+        Variable
+            Type int
+            Name negative
+            Unary -
+                Name biggest
+        Call
+            Name print
+            Binary +
+                Binary -
+                    Binary *
+                        Binary +
+                            Int 2
+                            Int 3
+                        Int 4
+                    Binary /
+                        Int 6
+                        Int 2
+                Name negative
+
+Function countDown
+    Parameter
+        Type int
+        Name start
+    Returns void
+    Block
+        Variable
+            Type int
+            Name count
+            Name start
+        While
+            Binary >
+                Name count
+                Int 0
+            Block
+                Call
+                    Name print
+                    Name count
+                Assign
+                    Name count
+                    Binary -
+                        Name count
+                        Int 1

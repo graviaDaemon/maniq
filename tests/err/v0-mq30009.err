@@ -1,0 +1,2 @@
+v0-mq30009.mq:2:5
+    ==> Checker-Error[MQ30009]: only a call can be used as a statement

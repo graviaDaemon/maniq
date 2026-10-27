@@ -3,6 +3,8 @@
 #include <string_view>
 #include <vector>
 
+#include "diagnostic.h"
+
 enum class TokenKind {
     IDENT, INT_LIT, FLOAT_LIT, DECIMAL_LIT, CHAR_LIT, STR_LIT, INTERP_STR_LIT, PATH_LIT,
 
@@ -29,6 +31,8 @@ struct Token {
     int line;
     int col;
 };
+
+Diagnostic lex_error(const Token& token);
 
 class Lexer {
 public:

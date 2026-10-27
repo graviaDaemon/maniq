@@ -1,0 +1,21 @@
+Function main
+    Returns void
+    Block
+        Variable
+            Type int
+            Name a
+            Binary +
+                Int 20
+                Bool false
+        Variable
+            Type int
+            Name b
+            Int 30
+        If
+            Binary >
+                Name a
+                Name b
+            Block
+                Call
+                    Name print
+                    Name a

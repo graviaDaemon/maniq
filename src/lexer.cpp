@@ -1,5 +1,6 @@
 ﻿#include "lexer.h"
 
+#include <format>
 #include <fstream>
 #include <stdexcept>
 #include <unordered_map>
@@ -92,6 +93,30 @@ string_view to_string(const TokenKind kind) {
         case TokenKind::END_OF_FILE:    return "EOF";
     }
     return "UNKNOWN";
+}
+
+Diagnostic lex_error(const Token& token) {
+    const string_view text = token.text;
+    const auto at = [&](const string& code, const string& message) {
+        return Diagnostic{code, token.line, token.col, message};
+    };
+
+    if (text.starts_with("/*")) {
+        return at("MQ10002", "unterminated block comment");
+    }
+    if (text.starts_with('\'')) {
+        if (text.size() > 1 && text.ends_with('\'')) {
+            return at("MQ10004", format("a char literal holds exactly one character ({})", text));
+        }
+        return at("MQ10001", "unterminated char literal");
+    }
+    if (text.starts_with('"') || text.starts_with("$\"")) {
+        return at("MQ10001", "unterminated string literal");
+    }
+    if (text.starts_with('<')) {
+        return at("MQ10001", "unterminated path literal");
+    }
+    return at("MQ10003", format("invalid character ('{}')", text));
 }
 
 void Lexer::read(const string& path) {

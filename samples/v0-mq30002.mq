@@ -1,0 +1,7 @@
+@main() << void {
+    int a = 20;
+    int a = 30;
+    if (a > 20) {
+        print(a);
+    }
+}

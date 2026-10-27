@@ -1,0 +1,2 @@
+v0-mq20001.mq:3:5
+    ==> Parser-Error[MQ20001]: expected ';', found 'print'

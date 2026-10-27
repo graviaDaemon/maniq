@@ -1,0 +1,2 @@
+v0-mq70002.mq:2:5
+    ==> Warning[MQ70002]: unused variable of type 'int' ('a')

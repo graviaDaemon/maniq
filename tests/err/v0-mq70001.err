@@ -1,0 +1,2 @@
+v0-mq70001.mq:9:5
+    ==> Warning[MQ70001]: unused return value of type 'int' ('max')

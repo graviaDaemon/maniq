@@ -1,0 +1,37 @@
+@max(int a, int b) << int {
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
+
+@isEven(int n) << bool {
+    return n % 2 == 0;
+}
+
+@main() << void {
+    countDown(3);
+
+    int biggest = max(3, 7);
+    print(biggest);
+
+    bool even = isEven(biggest);
+    if (even && biggest > 5) {
+        print(true);
+    } else if (!even || biggest <= 0) {
+        print(false);
+    } else {
+        print(0);
+    }
+
+    int negative = -biggest;
+    print((2 + 3) * 4 - 6 / 2 + negative);
+}
+
+@countDown(int start) << void {
+    int count = start;
+    while (count > 0) {
+        print(count);
+        count = count - 1;
+    }
+}

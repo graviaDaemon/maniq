@@ -1,0 +1,2 @@
+v0-mq10004.mq:2:11
+    ==> Lexer-Error[MQ10004]: a char literal holds exactly one character ('ab')

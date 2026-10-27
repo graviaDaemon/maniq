@@ -5,3 +5,5 @@ plan/
 requests/
 out.tokens
 resources/notes.md
+out.ast
+out.types

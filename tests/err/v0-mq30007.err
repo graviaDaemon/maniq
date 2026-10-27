@@ -1,0 +1,2 @@
+v0-mq30007.mq:3:9
+    ==> Checker-Error[MQ30007]: cannot return type 'int' for function 'max', expected type 'bool'

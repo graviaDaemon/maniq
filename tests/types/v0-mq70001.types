@@ -1,0 +1,29 @@
+Function max
+    Parameter
+        Type int
+        Name a
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        If
+            Binary > : bool
+                Name a : int
+                Name b : int
+            Block
+                Return
+                    Name a : int
+        Return
+            Name b : int
+
+Function main
+    Returns void
+    Block
+        Call : int
+            Name max
+            Int 10 : int
+            Int 15 : int
+        Call : void
+            Name print
+            Int 20 : int

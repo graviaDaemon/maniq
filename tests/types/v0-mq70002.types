@@ -1,0 +1,10 @@
+Function main
+    Returns void
+    Block
+        Variable
+            Type int
+            Name a
+            Int 10 : int
+        Call : void
+            Name print
+            Int 20 : int
