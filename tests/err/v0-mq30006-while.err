@@ -1,0 +1,2 @@
+v0-mq30006-while.mq:3:12
+    ==> Checker-Error[MQ30006]: cannot use type 'int' for the condition, expected type 'bool'

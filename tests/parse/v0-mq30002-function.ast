@@ -1,0 +1,30 @@
+Function twice
+    Parameter
+        Type int
+        Name a
+    Returns int
+    Block
+        Return
+            Binary *
+                Name a
+                Int 2
+
+Function twice
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        Return
+            Binary +
+                Name b
+                Name b
+
+Function main
+    Returns void
+    Block
+        Call
+            Name print
+            Call
+                Name twice
+                Int 2

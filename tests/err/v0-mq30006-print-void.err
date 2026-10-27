@@ -1,0 +1,2 @@
+v0-mq30006-print-void.mq:6:11
+    ==> Checker-Error[MQ30006]: cannot use type 'void' for argument 1 of function 'print', expected type 'int' or 'bool'

@@ -1,0 +1,71 @@
+Function main
+    Returns void
+    Block
+        Variable
+            Type int
+            Name lowest
+            Call
+                Name min
+                Int 5
+                Int 3
+        Variable
+            Type int
+            Name highest
+            Call
+                Name max
+                Int 5
+                Int 3
+        While
+            Binary >
+                Name highest
+                Name lowest
+            Block
+                Call
+                    Name print
+                    Name highest
+                Assign
+                    Name highest
+                    Binary -
+                        Name highest
+                        Int 1
+        Call
+            Name print
+            Int 0
+
+Function min
+    Parameter
+        Type int
+        Name a
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        If
+            Binary <
+                Name a
+                Name b
+            Block
+                Return
+                    Name a
+        Return
+            Name b
+
+Function max
+    Parameter
+        Type int
+        Name a
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        If
+            Binary >
+                Name a
+                Name b
+            Block
+                Return
+                    Name a
+        Return
+            Name b

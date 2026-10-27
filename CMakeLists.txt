@@ -12,6 +12,8 @@ add_executable(maniq src/main.cpp
         src/ast.h
         src/checker.cpp
         src/checker.h
+        src/codegen.cpp
+        src/codegen.h
         src/diagnostic.h
         src/parser.cpp
         src/parser.h
@@ -19,22 +21,34 @@ add_executable(maniq src/main.cpp
 target_compile_definitions(maniq PRIVATE MANIQ_VERSION="${PROJECT_VERSION}")
 
 enable_testing()
-function(golden_tests command folder extension)
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${folder})
-    file(GLOB GOLDEN CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/tests/${folder}/*.${extension})
-    foreach (golden ${GOLDEN})
-        get_filename_component(name ${golden} NAME_WE)
-        add_test(NAME ${command}/${name} COMMAND ${CMAKE_COMMAND}
-                -DMANIQ=$<TARGET_FILE:maniq>
-                -DCOMMAND=${command}
-                -DSOURCE=${CMAKE_SOURCE_DIR}/samples/${name}.mq
-                -DGOLDEN=${golden}
-                -DACTUAL=${CMAKE_BINARY_DIR}/${folder}/${name}.${extension}
-                -P ${CMAKE_SOURCE_DIR}/tests/golden.cmake)
-    endforeach ()
-endfunction()
+set(stages lex parse err types c run)
+set(extensions tokens ast err types c out)
 
-golden_tests(lex lex tokens)
-golden_tests(parse parse ast)
-golden_tests(build err err)
-golden_tests(types types types)
+file(GLOB samples CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/samples/*.mq)
+foreach (sample ${samples})
+    get_filename_component(name ${sample} NAME_WE)
+    foreach (stage extension IN ZIP_LISTS stages extensions)
+        if (NOT name MATCHES "^v0-" AND NOT stage STREQUAL "lex")
+            continue()
+        endif ()
+        add_test(NAME ${stage}/${name} COMMAND ${CMAKE_COMMAND}
+                -DMANIQ=$<TARGET_FILE:maniq>
+                -DSTAGE=${stage}
+                -DSOURCE=${sample}
+                -DGOLDEN=${CMAKE_SOURCE_DIR}/tests/${stage}/${name}.${extension}
+                -DWORK=${CMAKE_BINARY_DIR}/tests/${stage}/${name}
+                -P ${CMAKE_SOURCE_DIR}/tests/golden.cmake)
+        set_tests_properties(${stage}/${name} PROPERTIES LABELS ${stage})
+    endforeach ()
+endforeach ()
+
+file(GLOB goldens CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/tests/*/*)
+set(orphans "")
+foreach (golden ${goldens})
+    get_filename_component(name ${golden} NAME_WE)
+    if (NOT EXISTS ${CMAKE_SOURCE_DIR}/samples/${name}.mq)
+        list(APPEND orphans ${golden})
+    endif ()
+endforeach ()
+string(REPLACE ";" "|" orphans "${orphans}")
+add_test(NAME suite/orphans COMMAND ${CMAKE_COMMAND} -DSTAGE=orphans "-DORPHANS=${orphans}" -P ${CMAKE_SOURCE_DIR}/tests/golden.cmake)

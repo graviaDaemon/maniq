@@ -1,0 +1,4 @@
+@main() << void {
+    int a = -true;
+    print(a);
+}

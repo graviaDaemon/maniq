@@ -1,0 +1,2 @@
+v0-mq30003-not-int.mq:2:14
+    ==> Checker-Error[MQ30003]: cannot use operator ('!') on type 'int'

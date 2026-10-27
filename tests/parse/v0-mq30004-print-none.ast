@@ -1,0 +1,5 @@
+Function main
+    Returns void
+    Block
+        Call
+            Name print

@@ -1,0 +1,2 @@
+v0-mq30008-shape.mq:1:2
+    ==> Checker-Error[MQ30008]: entry-point function must be '@main() << void'

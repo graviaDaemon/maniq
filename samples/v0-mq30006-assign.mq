@@ -1,0 +1,5 @@
+@main() << void {
+    int a = 1;
+    a = true;
+    print(a);
+}

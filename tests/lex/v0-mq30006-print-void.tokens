@@ -1,0 +1,26 @@
+1:1     AT              @
+1:2     IDENT           nothing
+1:9     LEFT_PAREN      (
+1:10    RIGHT_PAREN     )
+1:12    LESS_LESS       <<
+1:15    KW_VOID         void
+1:20    LEFT_BRACE      {
+2:5     KW_RETURN       return
+2:11    SEMICOLON       ;
+3:1     RIGHT_BRACE     }
+5:1     AT              @
+5:2     IDENT           main
+5:6     LEFT_PAREN      (
+5:7     RIGHT_PAREN     )
+5:9     LESS_LESS       <<
+5:12    KW_VOID         void
+5:17    LEFT_BRACE      {
+6:5     IDENT           print
+6:10    LEFT_PAREN      (
+6:11    IDENT           nothing
+6:18    LEFT_PAREN      (
+6:19    RIGHT_PAREN     )
+6:20    RIGHT_PAREN     )
+6:21    SEMICOLON       ;
+7:1     RIGHT_BRACE     }
+8:1     EOF

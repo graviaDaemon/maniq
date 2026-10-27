@@ -246,6 +246,10 @@ is pushed *down* into the left child of a new node, so the **last** operator end
 
 ## 7. Errors
 
+> **Update (phase 4):** errors now carry a code and print location first (`Parser-Error[MQ20001]`, lexer `ERROR`
+> tokens as `Lexer-Error[MQ1xxxx]`); the parser throws a `Diagnostic` instead of a `runtime_error`. See
+> `Writerside/topics/errorcodes.md`. The rest of this section is the original guide.
+
 The roadmap's format is `file:line:col: message`, e.g. `v0-example.mq:3:7: expected ';'`. The position is the token
 where the parser got stuck: `peek()`'s `line` and `col`.
 
@@ -270,7 +274,8 @@ and exit code 1.
 
 For the CTest side, copy the `lex` block in `CMakeLists.txt`: glob `tests/parse/*.ast`, and run `maniq parse` against
 `samples/<name>.mq`. `tests/lex.cmake` hard-codes the `lex` command. Either copy it to `tests/parse.cmake` or pass the
-command in as one more `-D` variable. The second option is one script for both.
+command in as one more `-D` variable. The second option is one script for both. (Done: it's now `tests/golden.cmake`,
+shared by every test kind.)
 
 To check by hand:
 
@@ -304,12 +309,12 @@ is visible right away in the output.
 
 ## Summary checklist
 
-- [ ] node types in `src/ast.h`: expressions, statements, `Function`, using `unique_ptr` for children
-- [ ] dump works on a hand-built tree, with 4-space indent and a blank line between functions
-- [ ] `Parser` with `tokens`, `pos` and `peek` / `advance` / `check` / `match` / `expect`
-- [ ] `function`, `parameters`, `block`
-- [ ] all seven statements, including the assignment-vs-call lookahead
-- [ ] the ladder, one function per level, left-associative loops
-- [ ] errors as `file:line:col: message`, first error stops, exit code 1
-- [ ] `maniq parse <file>` and a CTest per `tests/parse/*.ast`
-- [ ] `diff` against `v0-example.ast` passes
+- [x] node types in `src/ast.h`: expressions, statements, `Function`, using `unique_ptr` for children
+- [x] dump works on a hand-built tree, with 4-space indent and a blank line between functions
+- [x] `Parser` with `tokens`, `pos` and `peek` / `advance` / `check` / `match` / `expect`
+- [x] `function`, `parameters`, `block`
+- [x] all seven statements, including the assignment-vs-call lookahead
+- [x] the ladder, one function per level, left-associative loops
+- [x] errors as `file:line:col: message`, first error stops, exit code 1
+- [x] `maniq parse <file>` and a CTest per `tests/parse/*.ast`
+- [x] `diff` against `v0-example.ast` passes

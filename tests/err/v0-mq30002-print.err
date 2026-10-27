@@ -1,0 +1,2 @@
+v0-mq30002-print.mq:1:2
+    ==> Checker-Error[MQ30002]: name already defined ('print')

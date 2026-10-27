@@ -1,0 +1,2 @@
+v0-mq30004-print-two.mq:2:5
+    ==> Checker-Error[MQ30004]: function 'print' expected 1 argument, got 2

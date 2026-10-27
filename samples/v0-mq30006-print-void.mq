@@ -1,0 +1,7 @@
+@nothing() << void {
+    return;
+}
+
+@main() << void {
+    print(nothing());
+}

@@ -1,0 +1,21 @@
+name: Tests
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use gcc 14 (C++26 for maniq, C23 for the generated C)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-14 g++-14
+          sudo ln -sf /usr/bin/gcc-14 /usr/local/bin/gcc
+          sudo ln -sf /usr/bin/g++-14 /usr/local/bin/g++
+          gcc --version
+          cmake --version
+      - run: cmake --workflow --preset dev

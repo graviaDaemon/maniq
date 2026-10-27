@@ -1,0 +1,11 @@
+@twice(int a) << int {
+    return a * 2;
+}
+
+@twice(int b) << int {
+    return b + b;
+}
+
+@main() << void {
+    print(twice(2));
+}

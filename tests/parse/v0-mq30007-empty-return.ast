@@ -1,0 +1,12 @@
+Function one
+    Returns int
+    Block
+        Return
+
+Function main
+    Returns void
+    Block
+        Call
+            Name print
+            Call
+                Name one

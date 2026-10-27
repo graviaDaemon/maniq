@@ -1,0 +1,15 @@
+#!/bin/sh
+# Runs the whole test suite before every push. Skip once with: git push --no-verify
+
+if ! command -v cmake >/dev/null 2>&1; then
+    echo "pre-push: cmake is not on PATH, so the tests can't run. Add it to PATH, or push with --no-verify." >&2
+    exit 1
+fi
+
+cmake --workflow --preset dev > build-pre-push.log 2>&1
+status=$?
+if [ $status -ne 0 ]; then
+    grep -E "tests passed|\(Failed\)|Error" build-pre-push.log >&2
+    echo "pre-push: tests failed, push stopped. Full output: build-pre-push.log" >&2
+fi
+exit $status

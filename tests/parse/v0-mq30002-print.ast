@@ -1,0 +1,14 @@
+Function print
+    Parameter
+        Type int
+        Name a
+    Returns void
+    Block
+        Return
+
+Function main
+    Returns void
+    Block
+        Call
+            Name print
+            Int 1

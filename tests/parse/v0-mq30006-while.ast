@@ -1,0 +1,15 @@
+Function main
+    Returns void
+    Block
+        Variable
+            Type int
+            Name a
+            Int 3
+        While
+            Name a
+            Block
+                Assign
+                    Name a
+                    Binary -
+                        Name a
+                        Int 1

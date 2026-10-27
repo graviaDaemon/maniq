@@ -286,14 +286,14 @@ time, and re-run the earlier files each time, because a change for `arith` can b
 
 ## Summary checklist
 
-- [ ] `TokenKind` (`enum class`) with the ten kinds from §1
-- [ ] `Token` with `kind`, `text` (`string_view`), `line`, `col`
-- [ ] `Lexer` with `source`, `pos`, `line`, `col` and `peek` / `advance` / `at_end`
-- [ ] BOM skipped; whitespace (including `\r`) skipped
-- [ ] `( ) ; =` as single-character tokens
-- [ ] identifiers, plus the keyword lookup for `str` and `char`
-- [ ] string and char literals, quotes included, escapes skipped, unterminated → `ERROR`
-- [ ] `EOF` at `4:10`
-- [ ] `to_string(TokenKind)` and the dump format, with no trailing spaces on `EOF`
-- [ ] `main` reads the file in binary mode and prints the dump
-- [ ] `diff` against `hello.tokens` passes
+- [x] `TokenKind` (`enum class`) with the ten kinds from §1
+- [x] `Token` with `kind`, `text` (`string_view`), `line`, `col`
+- [x] `Lexer` with `source`, `pos`, `line`, `col` and `peek` / `advance` / `at_end`
+- [x] BOM skipped; whitespace (including `\r`) skipped
+- [x] `( ) ; =` as single-character tokens
+- [x] identifiers, plus the keyword lookup for `str` and `char`
+- [x] string and char literals, quotes included, escapes skipped, unterminated → `ERROR`
+- [x] `EOF` at `4:10`
+- [x] `to_string(TokenKind)` and the dump format, with no trailing spaces on `EOF`
+- [x] `main` reads the file in binary mode and prints the dump
+- [x] `diff` against `hello.tokens` passes

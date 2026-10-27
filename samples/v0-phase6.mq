@@ -1,0 +1,24 @@
+﻿@main() << void {
+    int lowest = min(5, 3);
+    int highest = max(5, 3);
+    while (highest > lowest) {
+        print(highest);
+        highest = highest - 1;
+    }
+    print(0);
+}
+
+@min(int a, int b) << int {
+    if (a < b) {
+        return a;
+    }
+    return b;
+}
+
+@max(int a, int b) << int {
+    if (a > b) {
+        return a;
+    }
+
+    return b;
+}

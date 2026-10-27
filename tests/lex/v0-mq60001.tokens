@@ -1,0 +1,26 @@
+1:1     AT              @
+1:2     IDENT           main
+1:6     LEFT_PAREN      (
+1:7     RIGHT_PAREN     )
+1:9     LESS_LESS       <<
+1:12    KW_VOID         void
+1:17    LEFT_BRACE      {
+2:5     KW_INT          int
+2:9     IDENT           zero
+2:14    EQUAL           =
+2:16    INT_LIT         0
+2:17    SEMICOLON       ;
+3:5     IDENT           print
+3:10    LEFT_PAREN      (
+3:11    INT_LIT         10
+3:13    RIGHT_PAREN     )
+3:14    SEMICOLON       ;
+4:5     IDENT           print
+4:10    LEFT_PAREN      (
+4:11    INT_LIT         10
+4:14    SLASH           /
+4:16    IDENT           zero
+4:20    RIGHT_PAREN     )
+4:21    SEMICOLON       ;
+5:1     RIGHT_BRACE     }
+6:1     EOF

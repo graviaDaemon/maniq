@@ -1,0 +1,121 @@
+Function max
+    Parameter
+        Type int
+        Name a
+    Parameter
+        Type int
+        Name b
+    Returns int
+    Block
+        If
+            Binary > : bool
+                Name a : int
+                Name b : int
+            Block
+                Return
+                    Name a : int
+        Return
+            Name b : int
+
+Function isEven
+    Parameter
+        Type int
+        Name n
+    Returns bool
+    Block
+        Return
+            Binary == : bool
+                Binary % : int
+                    Name n : int
+                    Int 2 : int
+                Int 0 : int
+
+Function countDown
+    Parameter
+        Type int
+        Name start
+    Returns void
+    Block
+        Variable
+            Type int
+            Name count
+            Name start : int
+        While
+            Binary > : bool
+                Name count : int
+                Int 0 : int
+            Block
+                Call : void
+                    Name print
+                    Name count : int
+                Assign
+                    Name count
+                    Binary - : int
+                        Name count : int
+                        Int 1 : int
+
+Function main
+    Returns void
+    Block
+        Call : void
+            Name countDown
+            Int 3 : int
+        Variable
+            Type int
+            Name biggest
+            Call : int
+                Name max
+                Int 3 : int
+                Int 7 : int
+        Call : void
+            Name print
+            Name biggest : int
+        Variable
+            Type bool
+            Name even
+            Call : bool
+                Name isEven
+                Name biggest : int
+        If
+            Binary && : bool
+                Name even : bool
+                Binary > : bool
+                    Name biggest : int
+                    Int 5 : int
+            Block
+                Call : void
+                    Name print
+                    Bool true : bool
+            If
+                Binary || : bool
+                    Unary ! : bool
+                        Name even : bool
+                    Binary <= : bool
+                        Name biggest : int
+                        Int 0 : int
+                Block
+                    Call : void
+                        Name print
+                        Bool false : bool
+                Block
+                    Call : void
+                        Name print
+                        Int 0 : int
+        Variable
+            Type int
+            Name negative
+            Unary - : int
+                Name biggest : int
+        Call : void
+            Name print
+            Binary + : int
+                Binary - : int
+                    Binary * : int
+                        Binary + : int
+                            Int 2 : int
+                            Int 3 : int
+                        Int 4 : int
+                    Binary / : int
+                        Int 6 : int
+                        Int 2 : int
+                Name negative : int

@@ -1,0 +1,5 @@
+@main() << void {
+    int zero = 0;
+    print(10);
+    print(10 / zero);
+}

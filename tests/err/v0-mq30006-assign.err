@@ -1,0 +1,2 @@
+v0-mq30006-assign.mq:3:9
+    ==> Checker-Error[MQ30006]: cannot use type 'bool' for variable 'a', expected type 'int'

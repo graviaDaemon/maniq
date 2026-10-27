@@ -1,4 +1,6 @@
 #include <cstdio>
+#include <cstdlib>
+#include <format>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -8,6 +10,7 @@
 #include "lexer.h"
 #include "ast.h"
 #include "checker.h"
+#include "codegen.h"
 #include "parser.h"
 
 using namespace std;
@@ -25,17 +28,60 @@ namespace {
         }
     }
 
-    void report(const string_view file, const Diagnostic& d) {
+    void report(const string_view file, const Diagnostic& d, const string& detail = "") {
         const char* label = d.code[2] == '1' ? "Lexer-Error"
                           : d.code[2] == '2' ? "Parser-Error"
                           : d.code[2] == '3' ? "Checker-Error"
+                          : d.code[2] == '4' ? "Generate-Error"
+                          : d.code[2] == '5' ? "Build-Error"
                           : "Warning";
-        cerr << file << ":" << d.line << ":" << d.col << "\n"
-             << "    ==> " << label << "[" << d.code << "]: " << d.message << "\n";
+        if (!file.empty()) {
+            cerr << file;
+            if (d.line > 0) {
+                cerr << ":" << d.line << ":" << d.col;
+            }
+            cerr << "\n    ==> ";
+        }
+        cerr << label << "[" << d.code << "]: " << d.message << "\n";
+
+        istringstream lines(detail);
+        const char* prefix = "    /=> ";
+        for (string text; getline(lines, text); prefix = "        ") {
+            if (!text.empty() && text.back() == '\r') {
+                text.pop_back();
+            }
+            cerr << prefix << text << "\n";
+        }
+    }
+
+    string read_log() {
+        ostringstream log;
+        log << ifstream("out.log").rdbuf();
+        return log.str();
+    }
+
+    int compile(const string_view file, const Program& program) {
+        const string_view name = file.substr(file.find_last_of("/\\") + 1);
+        const string_view stem = name.substr(0, name.rfind('.'));
+        {
+            ofstream cFile("out.c", ios::binary);
+            generate(cFile, program, name);
+        }
+
+        if (std::system("gcc --version > out.log 2>&1") != 0) {
+            report("", {"MQ50001", 0, 0, "gcc not found; install gcc and add to PATH"}, read_log());
+            return 1;
+        }
+        const string command = format("gcc -std=c23 -O2 -fwrapv out.c -o \"{}\" > out.log 2>&1", stem);
+        if (std::system(command.c_str()) != 0) {
+            report(file, {"MQ40001", 0, 0, "internal error: gcc rejected the generated C in out.c"}, read_log());
+            return 1;
+        }
+        return 0;
     }
 
     int build(const string_view file, vector<Token> tokens) {
-        for (const char* stale : {"out.tokens", "out.ast", "out.types"}) {
+        for (const char* stale : {"out.tokens", "out.ast", "out.types", "out.c", "out.log"}) {
             std::remove(stale);
         }
 
@@ -64,7 +110,7 @@ namespace {
         }
         ofstream typesFile("out.types", ios::binary);
         dump(typesFile, program);
-        return 0;
+        return compile(file, program);
     }
 }
 

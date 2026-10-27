@@ -1,0 +1,15 @@
+Function main
+    Returns void
+    Block
+        Variable
+            Type int
+            Name zero
+            Int 0 : int
+        Call : void
+            Name print
+            Int 10 : int
+        Call : void
+            Name print
+            Binary / : int
+                Int 10 : int
+                Name zero : int

@@ -1,0 +1,7 @@
+@print(int a) << void {
+    return;
+}
+
+@main() << void {
+    print(1);
+}

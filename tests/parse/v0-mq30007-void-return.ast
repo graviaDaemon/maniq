@@ -1,0 +1,11 @@
+Function hello
+    Returns void
+    Block
+        Return
+            Int 1
+
+Function main
+    Returns void
+    Block
+        Call
+            Name hello

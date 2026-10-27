@@ -1,0 +1,12 @@
+Function nothing
+    Returns void
+    Block
+        Return
+
+Function main
+    Returns void
+    Block
+        Call
+            Name print
+            Call
+                Name nothing

@@ -1,0 +1,11 @@
+Function main
+    Returns void
+    Block
+        Variable
+            Type int
+            Name a
+            Unary -
+                Bool true
+        Call
+            Name print
+            Name a

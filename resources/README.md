@@ -51,16 +51,19 @@ Each entry: what it is, cost, **read** (what matters) and **skip** (what doesn't
 
 ## Phase 4 — Semantic analysis
 
-- **semantics.md** (this folder) — The rules to decide, scopes, two passes, the type tables and every-path-returns, until `maniq check` accepts `v0-example.mq` and rejects broken programs. Start here.
+- **semantics.md** (this folder) — The rules to decide, scopes, two passes, the type tables and every-path-returns, until `maniq build` accepts `v0-example.mq` and rejects broken programs. Start here.
 - **Crafting Interpreters ch. 11 "Resolving and Binding"** · free · https://craftinginterpreters.com/resolving-and-binding.html — Read: scopes and name resolution. Type checking is not covered (Lox is dynamic).
 - **Writing a C Compiler** — the chapters on semantic analysis / identifier resolution and type checking (see table of contents).
 
 ## Phase 5 — C code generation
 
+- **codegen.md** (this folder) — The run-time rules to decide, the shape of `out.c`, name prefixes, how each node becomes C, calling gcc, and the `.c`/`.out` golden tests. Start here.
 - **Nim backends** · free · https://nim-lang.org/docs/backends.html — A real language that compiles to C. Read: the C backend sections, to see how a compiler drives the C compiler.
 - **Compiler Explorer** · https://godbolt.org/ — Paste your generated C to check it compiles and what it turns into.
 
 ## Phase 6 — Test harness
+
+- **automation.md** (this folder) — What the CTest suite already does and how, the gaps (one command, diffs, parallel runs, blessing, completeness), and running it on every push. Start here.
 
 - **Writing a C Compiler** — the test-suite approach (run every test program, compare output).
 - **chibicc** `test/` folder · https://github.com/rui314/chibicc — See how tests grow with each commit.

@@ -1,7 +1,7 @@
 # Semantic analysis: checking what the tree means
 
-Goal of this step: `maniq check <file>` accepts every correct v0 program and rejects every wrong one with one clear
-line, `file:line:col: message`. For `samples/v0-example.mq` it prints the tree with a type on every expression.
+Goal of this step: `maniq build <file>` accepts every correct v0 program and rejects every wrong one with one clear,
+located error. For a correct program it writes the tree with a type on every expression.
 
 The parser only checked **form**. All of these parse fine today, and all of them are wrong:
 
@@ -213,17 +213,17 @@ For every non-`void` function: if its body doesn't always return, report an erro
 
 ## 9. Errors
 
-Same format as the parser: `file:line:col: message`, the position of the node at fault, first error stops, exit code
-1. Throwing a `runtime_error` with `line:col: message` works exactly as in `parser.cpp`, and `main` already prefixes
-the file name.
+Every stage reports the same way: the checker throws a `Diagnostic{code, line, col, message}` (`src/diagnostic.h`),
+`main` prints it location first, and the first error stops with exit code 1. The position is the node at fault, at its
+first token (a binary expression at its operator). The codes and the format are in `Writerside/topics/errorcodes.md`.
 
 Good messages say what was expected and what was found:
 
 ```text
-bad.mq:13:12: cannot use '+' on 'int' and 'bool'
-bad.mq:27:19: 'max' takes 2 arguments, got 1
-bad.mq:4:1: 'max' does not return on every path
-bad.mq:17:13: 'count' is already declared
+bad.mq:13:12
+    ==> Checker-Error[MQ30003]: cannot use operator ('+') on types 'int' and 'bool'
+bad.mq:27:19
+    ==> Checker-Error[MQ30004]: function 'max' expected 2 arguments, got 1
 ```
 
 The parser had to stop at the first error, because after a syntax error the tokens no longer line up. A checker
@@ -232,24 +232,28 @@ The parser had to stop at the first error, because after a syntax error the toke
 
 ## 10. `main` and the tests
 
-`maniq check <file>`: read, lex, parse, check. It's the same `argv[1]` pattern as `parse`.
+`maniq build <file>`: read, lex, parse, check. It's the same `argv[1]` pattern as `parse`, and the name is the one the
+command keeps once it produces an executable. It writes `out.tokens`, `out.ast` and, if checking succeeds,
+`out.types`; errors and warnings go to stderr, and a clean build prints nothing.
 
-On success, print the tree with types: change `dump` so an expression line ends in ` : int` once its type is known
-(and prints as before while it's unknown, so `maniq parse` stays the same). This is the output from §1.
+The typed tree: `dump` ends an expression line in ` : int` once its type is known, and prints it as before while it's
+unknown, so `maniq parse` stays the same. Only expressions get a type (`Int`, `Bool`, `Name` as a use, `Unary`,
+`Binary`, `Call`); the `Type`/`Name` lines under `Parameter`, `Variable`, `Assign` and `Call` are labels. This is the
+output from §1.
 
-Two kinds of test:
+Every test reads `samples/<name>.mq`:
 
-- **Valid programs** use the samples, as before: `tests/check/v0-example.types` holds the expected typed dump. Make
-  it by copying `tests/parse/v0-example.ast` and adding the types by hand. That's the same exercise as writing the
-  `.ast` file, one level up.
-- **Invalid programs** aren't samples, so they need their own input files: `tests/check/<name>.mq` with the expected
-  error in `tests/check/<name>.err`, one mistake per file. Start with one per row of the tables in §6 and §7.
+- **Valid programs:** `tests/types/<name>.types` holds the expected typed tree. Make it by copying
+  `tests/parse/<name>.ast` and adding the types by hand: the same exercise as writing the `.ast` file, one level up.
+  A program with an error has no `.types` file, because the checker stops before the tree is fully typed.
+- **Errors and warnings:** `tests/err/<name>.err` holds what `maniq build` prints to stderr (empty for a clean
+  build). The samples are named `v0-mq<code>.mq` or `v0-mq<code>-<case>.mq`, with one mistake per file.
 
-`tests/golden.cmake` compares stdout today. For the `.err` tests it needs `ERROR_FILE` instead of `OUTPUT_FILE`, and
-it should expect exit code 1 rather than fail on it. One more `-D` variable can switch between the two.
+`tests/golden.cmake` has a mode per kind. For `.err` it captures stderr and expects exit code 1 exactly when the
+output contains `Error[`; for `.types` it runs `build` in its own folder and compares `out.types`.
 
 > **Pitfall:** the error line contains the path you passed on the command line. CTest passes an absolute path, which
-> differs per machine. Pass the file name only in the `.err` file, or strip the directory in the test script.
+> differs per machine, so the test script strips the directory before comparing.
 
 ## 11. Order of work
 
@@ -258,7 +262,7 @@ Grow it with scratch files again, one rule at a time:
 | Step | Scratch input                                          | You add                                   |
 |------|--------------------------------------------------------|-------------------------------------------|
 | 1    | (any file)                                             | positions in the tree (§2), `Type` enum   |
-| 2    | `@main() << void {}`                                   | pass 1, the `@main` rule, `maniq check`   |
+| 2    | `@main() << void {}`                                   | pass 1, the `@main` rule, `maniq build`   |
 | 3    | `... int x = 1; print(x); ...`                         | scopes, `Variable`, `Name`, `Int`, `print` |
 | 4    | `... int x = true; ...`                                | the first type error                      |
 | 5    | `... x = x + 2 * 3; ...`                               | `Assign`, the `Binary` table, `Unary`     |
@@ -271,13 +275,13 @@ Grow it with scratch files again, one rule at a time:
 
 ## Summary checklist
 
-- [ ] the eight rules from §0 decided and written down
-- [ ] `line`/`col` on every node, set by the parser
-- [ ] `enum class Type`, with a type field on `Expression`
-- [ ] scope stack: `push` / `pop` / `declare` / `lookup`
-- [ ] pass 1 collects signatures; duplicate names and `@main` checked
-- [ ] `check(Expression&)` following the table in §6, `print` built in
-- [ ] `check(Statement&)` following the table in §7
-- [ ] every-path-returns for non-`void` functions
-- [ ] errors as `file:line:col: message`, exit code 1
-- [ ] `maniq check <file>`, typed dump, `.types` and `.err` golden tests
+- [x] the eight rules from §0 decided and written down
+- [x] `line`/`col` on every node, set by the parser
+- [x] `enum class Type`, with a type field on `Expression`
+- [x] scope stack: `push` / `pop` / `declare` / `lookup`
+- [x] pass 1 collects signatures; duplicate names and `@main` checked
+- [x] `check(Expression&)` following the table in §6, `print` built in
+- [x] `check(Statement&)` following the table in §7
+- [x] every-path-returns for non-`void` functions
+- [x] errors as coded diagnostics, location first, exit code 1
+- [x] `maniq build <file>`, typed dump, `.types` and `.err` golden tests

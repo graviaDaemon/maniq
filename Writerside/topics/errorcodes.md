@@ -53,6 +53,41 @@ The lexer never stops: it emits an `ERROR` token, and the error is reported when
 | `MQ30008` | `missing entry-point function ('main')`                      | There is no `@main`, or it has the wrong shape.              |
 | `MQ30009` | `only a call can be used as a statement`                     | An expression like `1 + 2;` stands alone and does nothing.   |
 
+## Code generation (MQ4xxxx) and build (MQ5xxxx)
+
+These have no position in the source. A generate error prints the file name only; a build error is about the
+machine, not the file, so it has no location line at all. The `/=>` line carries the details: here the message from
+the tool underneath (gcc, or the operating system's shell); later also stack traces. Only its first line starts with
+`/=>`; the rest are indented to line up under it.
+
+| Code      | Message (example)                                          | Cause                                                        |
+|-----------|------------------------------------------------------------|--------------------------------------------------------------|
+| `MQ40001` | `internal error: gcc rejected the generated C in out.c`    | A bug in `maniq`: the generated C doesn't compile. Please report it. |
+| `MQ50001` | `gcc not found; install gcc and add to PATH`               | `gcc --version` failed.                                      |
+
+```text
+bad.mq
+    ==> Generate-Error[MQ40001]: internal error: gcc rejected the generated C in out.c
+    /=> out.c:59:20: error: expected ';' before 'int32_t'
+Build-Error[MQ50001]: gcc not found; install gcc and add to PATH
+    /=> 'gcc' is not recognized as an internal or external command,
+        operable program or batch file.
+```
+
+## Runtime (MQ6xxxx)
+
+Reported by the compiled program itself while it runs, in the same format, with exit code 1. Anything the program
+printed before the error comes first.
+
+| Code      | Message (example)                                            | Cause                                                        |
+|-----------|--------------------------------------------------------------|--------------------------------------------------------------|
+| `MQ60001` | `division by zero`                                           | The right side of `/` or `%` is `0`.                         |
+
+```text
+bad.mq:3:15
+    ==> Runtime-Error[MQ60001]: division by zero
+```
+
 ## Warnings (MQ7xxxx)
 
 | Code      | Message (example)                                            | Cause                                                        |

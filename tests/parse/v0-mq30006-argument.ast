@@ -1,0 +1,21 @@
+Function isEven
+    Parameter
+        Type int
+        Name n
+    Returns bool
+    Block
+        Return
+            Binary ==
+                Binary %
+                    Name n
+                    Int 2
+                Int 0
+
+Function main
+    Returns void
+    Block
+        Call
+            Name print
+            Call
+                Name isEven
+                Bool true

@@ -1,0 +1,8 @@
+Function main
+    Returns void
+    Block
+        Call
+            Name print
+            Call
+                Name twice
+                Int 2

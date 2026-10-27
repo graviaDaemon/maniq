@@ -13,7 +13,7 @@ source.mq → lexer → tokens → parser → AST → type checker → C codegen
 - **Lexer** — cuts text into tokens (`int`, `x`, `=`, `42`, `;`).
 - **Parser** — turns tokens into a tree (the AST) that matches your grammar.
 - **Type checker** — resolves names, checks types, reports errors.
-- **C codegen** — walks the checked AST and writes C11 text; the platform's C compiler does the rest.
+- **C codegen** — walks the checked AST and writes C23 text; the platform's C compiler does the rest.
 
 Everything up to the type checker is the *front end*. It is the same for interpreters and compilers, which is why interpreter books are still useful here.
 
@@ -61,7 +61,8 @@ Tokens → AST.
 - Define AST node types (C++: `std::variant` or a small class hierarchy).
 - **Recursive descent** for statements and declarations; **Pratt parsing** for expressions (precedence and associativity).
 - Add an AST pretty-printer (`maniq parse file.mq`) for golden tests.
-- Errors carry line and column: `hello.mq:3:7: expected ';'`.
+- Errors carry a code, line and column (format and codes in [Error codes](errorcodes.md)):
+  `hello.mq:3:7` then `    ==> Parser-Error[MQ20001]: expected ';', found 'print'`.
 
 **Done when:** every v0 sample parses, AST-dump golden tests pass, and broken inputs give located errors.
 
@@ -81,13 +82,15 @@ Check that a parsed program makes sense.
 
 ## Phase 5 — C code generation
 
-Checked AST → C11 text → native executable.
+Checked AST → C23 text → native executable.
 
 - Walk the AST and emit C; keep the output readable (you will debug it).
-- Write the `.c` file to a build folder and invoke clang/MSVC from `maniq`.
+- Write `out.c` to the current folder and invoke `gcc` (hard-coded, from PATH) from `maniq`; the exe is named after
+  the source file. Project folders and a configurable compiler come in phase 9.
 - Report C compiler failures as `maniq` bugs, not user errors.
 
-**Milestone 1: `maniq build hello.mq` → native `hello.exe` printing Hello World.**
+**Milestone 1: `maniq build hello.mq` → native `hello.exe`.** v0 has no strings, so in v0 it prints a number
+(`print(42);`); the real Hello World comes with strings in phase 7.
 
 **Done when:** Milestone 1 works and every v0 sample compiles and runs correctly.
 
@@ -97,8 +100,8 @@ Checked AST → C11 text → native executable.
 
 Automate everything from phase 2–5.
 
-- One command runs every `tests/*.mq`: compile, run, compare stdout and exit code — or the compile error — against the expected files.
-- Run it on every change from here on.
+- One command (`cmake --workflow --preset dev`) runs every `samples/*.mq` through every stage that applies: tokens, tree, errors, types, C, and the program's output and exit code, each against its golden file; blessing updates golden files for review.
+- Run it on every change from here on: GitHub Actions on every push, and an optional `pre-push` hook.
 
 **Done when:** a single command runs the whole suite and reports pass/fail per file.
 
@@ -136,7 +139,8 @@ A small C runtime linked into every Maniq program.
 ## Phase 9 — Standard library + build tool
 
 - Core library (I/O, strings, collections), written increasingly in Maniq itself.
-- `maniq.toml` project manifest (TOML), parsed with toml++.
+- `maniq.toml` project manifest (TOML), parsed with toml++; `maniq new` scaffolds a project. The project layout and
+  the output folder (`build/`, `target/`, per configuration…) are decided here; the exe is named after the project.
 - `maniq build --target <platform>` reads the manifest and builds the project.
 
 **Done when:** a multi-file project builds with `maniq build` from its `maniq.toml`.
@@ -175,7 +179,9 @@ Self-drawn UI on a canvas (Flutter model).
 ## Phase 12 — Later / optional
 
 - Own x86-64 backend, as a learning track next to the C backend.
-- Editor support: syntax highlighting, then a language server (LSP).
+- Editor support: file icon and syntax highlighting (an editor extension), then a language server (LSP) that shows
+  the checker's errors and warnings as you type.
+- Installer: an MSI on Windows and a light-weight installer on macOS/Linux that ships a C compiler with `maniq`.
 - Self-hosting: the Maniq compiler written in Maniq.
 
 **Resources:** [Writing a C Compiler](https://nostarch.com/writing-c-compiler) · [chibicc](https://github.com/rui314/chibicc) · [LLVM Kaleidoscope](https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html) (only if you reconsider LLVM)

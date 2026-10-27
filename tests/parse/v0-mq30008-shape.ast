@@ -1,0 +1,9 @@
+Function main
+    Parameter
+        Type int
+        Name x
+    Returns void
+    Block
+        Call
+            Name print
+            Name x

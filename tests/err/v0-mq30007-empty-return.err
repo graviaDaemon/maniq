@@ -1,0 +1,2 @@
+v0-mq30007-empty-return.mq:2:5
+    ==> Checker-Error[MQ30007]: cannot return type 'void' for function 'one', expected type 'int'

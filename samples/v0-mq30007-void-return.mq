@@ -1,0 +1,7 @@
+@hello() << void {
+    return 1;
+}
+
+@main() << void {
+    hello();
+}

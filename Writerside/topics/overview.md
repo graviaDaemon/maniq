@@ -8,7 +8,7 @@ One Maniq codebase targets **Windows, Linux, macOS, iOS and Android**, for both 
 
 - **Compiled, never interpreted** — no interpreter or VM stage.
 - **Compiler written in C++26**, built with CMake.
-- **Emits C11** — `maniq` generates C and hands it to the platform's C compiler (clang, MSVC, gcc, Xcode clang, Android NDK clang).
+- **Emits C23** — `maniq` generates C and hands it to the platform's C compiler (clang, gcc, Xcode clang, Android NDK clang); `maniq` ships its own C compiler with the installer.
 - **Android via the NDK** — Maniq runs as native code inside a thin Kotlin/Java host app.
 - **Memory** — garbage collected by default, with explicit manual allocation/free when you want control.
 - **Syntax** — C/Arduino family, statically typed.
